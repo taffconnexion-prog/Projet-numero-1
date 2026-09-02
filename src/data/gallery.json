@@ -1,0 +1,27 @@
+[
+  {
+    "id": "terrasse",
+    "src": "/images/gallery-terrasse.jpg",
+    "alt": "Terrasse en bois sur pilotis au-dessus de l’eau turquoise, lanternes en rotin allumées au crépuscule"
+  },
+  {
+    "id": "lanternes",
+    "src": "/images/gallery-lanternes.jpg",
+    "alt": "Lanternes en rotin suspendues aux poutres de bois de la terrasse, lumière dorée"
+  },
+  {
+    "id": "cuisine",
+    "src": "/images/gallery-cuisine.jpg",
+    "alt": "Cuisine ouverte : gril à braises, pots en cuivre et herbes fraîches dans la lumière chaleureuse"
+  },
+  {
+    "id": "table",
+    "src": "/images/gallery-table.jpg",
+    "alt": "Table dressée de lin blanc au bord de l’eau, coucher de soleil sur l’Atlantique en arrière-plan"
+  },
+  {
+    "id": "coucher",
+    "src": "/images/gallery-coucher.jpg",
+    "alt": "Coucher de soleil doré sur l’océan, pirogues au loin, vu depuis la terrasse"
+  }
+]

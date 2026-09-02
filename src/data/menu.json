@@ -1,0 +1,86 @@
+{
+  "dishes": [
+    {
+      "id": "1",
+      "name": "Barracuda de Fidjrossè",
+      "description": "Barracuda grillé sur braises de coco, sauce gboma aux herbes de brousse, riz de mangrove parfumé au gingembre frais",
+      "price": "8 500 FCFA",
+      "category": "plats",
+      "tag": "signature",
+      "image": "/images/dish-barracuda.jpg"
+    },
+    {
+      "id": "2",
+      "name": "Akpan du Chef",
+      "description": "Akpan fermenté maison, mangue attiéké, crevettes géantes du lac Nokoué flambées au sodabi",
+      "price": "5 200 FCFA",
+      "category": "entrées",
+      "tag": "signature",
+      "image": "/images/dish-akpan.jpg"
+    },
+    {
+      "id": "3",
+      "name": "Amiwo Royal",
+      "description": "Pâte de maïs rouge ancestrale, queue de langouste locale, réduction de palme et citron vert de Ouidah",
+      "price": "12 000 FCFA",
+      "category": "plats",
+      "tag": "prestige",
+      "image": "/images/dish-amiwo.jpg"
+    },
+    {
+      "id": "4",
+      "name": "Soupe Kandji",
+      "description": "Bouillon de poisson fumé, feuilles de baobab, igname pilée à la main, huile de palmiste non raffinée",
+      "price": "3 800 FCFA",
+      "category": "entrées",
+      "tag": "traditionnel",
+      "image": "/images/dish-kandji.jpg"
+    },
+    {
+      "id": "5",
+      "name": "Dessert Zanmidji",
+      "description": "Gâteau de gari au coco râpé, coulis de tamarin, glace à la noix de cajou torréfiée, fleur de sel de Ouidah",
+      "price": "2 500 FCFA",
+      "category": "desserts",
+      "tag": "maison",
+      "image": "/images/dish-zanmidji.jpg"
+    },
+    {
+      "id": "6",
+      "name": "Cocktail Atlantique",
+      "description": "Sodabi artisanal, jus de bissap frais, sirop de gingembre, zeste de citron vert, mousse de coco",
+      "price": "2 000 FCFA",
+      "category": "boissons",
+      "tag": "signature",
+      "image": "/images/dish-cocktail.jpg"
+    }
+  ],
+  "tastingMenu": {
+    "name": "Menu Dégustation « Voyage au Bénin »",
+    "services": 5,
+    "price": "35 000 FCFA",
+    "note": "par personne · minimum 2 personnes",
+    "courses": [
+      {
+        "name": "Mise en bouche",
+        "detail": "Bouchée de crevette au piment de la Jamaïque"
+      },
+      {
+        "name": "Entrée froide",
+        "detail": "Carpaccio de barracuda mariné à l’huile de neem et citron de Ouidah"
+      },
+      {
+        "name": "Entrée chaude",
+        "detail": "Velouté de feuilles de baobab, croûton de gari"
+      },
+      {
+        "name": "Plat principal",
+        "detail": "Langouste entière grillée, sauce vodoun aux 7 épices"
+      },
+      {
+        "name": "Dessert",
+        "detail": "Fondant au chocolat d’Abomey-Calavi, glace cajou"
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+/* Révélation horizontale de la grille — UNE seule animation pour
+   l'ensemble de la mosaïque, jouée une fois par session. */
+
+.mask {
+  clip-path: inset(0 100% 0 0);
+}
+
+.revealed {
+  clip-path: inset(0 0 0 0);
+  animation: revealGrid 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes revealGrid {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mask,
+  .revealed {
+    clip-path: none;
+    animation: none;
+  }
+}

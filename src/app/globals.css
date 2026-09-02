@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    min-height: 100svh;
+  }
+
+  ::selection {
+    background-color: #4aafcb;
+    color: #0a2e3c;
+  }
+
+  :focus-visible {
+    outline: 2px solid #4aafcb;
+    outline-offset: 2px;
+  }
+}

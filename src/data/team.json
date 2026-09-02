@@ -1,0 +1,26 @@
+[
+  {
+    "id": "kofi",
+    "name": "Kofi Adannou",
+    "role": "Chef & fondateur",
+    "photo": "/images/chef-kofi.jpg"
+  },
+  {
+    "id": "mariam",
+    "name": "Mariam Adannou",
+    "role": "Maîtresse d’hôtel",
+    "photo": "/images/team-mariam.jpg"
+  },
+  {
+    "id": "serge",
+    "name": "Serge Dossou",
+    "role": "Sous-chef",
+    "photo": "/images/team-serge.jpg"
+  },
+  {
+    "id": "fatou",
+    "name": "Fatou Sagna",
+    "role": "Bar & pâtisserie",
+    "photo": "/images/team-fatou.jpg"
+  }
+]
