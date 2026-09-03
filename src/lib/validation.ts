@@ -1,4 +1,6 @@
+import type { Locale } from '@/types'
 import { site } from './site'
+import { formatDate } from './i18n'
 
 export interface ReservationValues {
   nom: string
@@ -12,7 +14,26 @@ export interface ReservationValues {
   message: string
 }
 
-export type ReservationErrors = Partial<Record<keyof ReservationValues, string>>
+export type ReservationErrorField =
+  | 'nom'
+  | 'email'
+  | 'telephone'
+  | 'date'
+  | 'heure'
+  | 'couverts'
+
+// Codes d'erreur — les messages sont dans les dictionnaires (i18n).
+export type ReservationErrorCode =
+  | 'name'
+  | 'email'
+  | 'phone'
+  | 'dateRequired'
+  | 'datePast'
+  | 'dateMonday'
+  | 'time'
+  | 'guests'
+
+export type ReservationErrors = Partial<Record<ReservationErrorField, ReservationErrorCode>>
 
 export function normalizePhone(input: string): string {
   return input.replace(/[\s\-().]/g, '')
@@ -34,64 +55,52 @@ export function todayIso(): string {
   return `${d.getFullYear()}-${month}-${day}`
 }
 
-export function formatDateFr(iso: string): string {
-  const date = new Date(`${iso}T12:00:00`)
-  if (Number.isNaN(date.getTime())) return iso
-  return date.toLocaleDateString('fr-FR', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  })
-}
-
 export function validateReservation(v: ReservationValues): ReservationErrors {
   const errors: ReservationErrors = {}
 
   if (v.nom.trim().length < 2) {
-    errors.nom = 'Veuillez indiquer votre nom complet.'
+    errors.nom = 'name'
   }
   if (!isValidEmail(v.email)) {
-    errors.email = 'Adresse e-mail invalide.'
+    errors.email = 'email'
   }
   if (!isValidBeninPhone(v.telephone)) {
-    errors.telephone = 'Numéro béninois attendu, par exemple +229 01 23 45 67.'
+    errors.telephone = 'phone'
   }
   if (!v.date) {
-    errors.date = 'Choisissez une date.'
+    errors.date = 'dateRequired'
   } else if (v.date < todayIso()) {
-    errors.date = 'Cette date est déjà passée.'
+    errors.date = 'datePast'
   } else if (new Date(`${v.date}T12:00:00`).getDay() === 1) {
-    errors.date = 'Nous sommes fermés le lundi — choisissez un autre jour.'
+    errors.date = 'dateMonday'
   }
   if (!v.heure) {
-    errors.heure = 'Choisissez un créneau.'
+    errors.heure = 'time'
   }
   const couverts = Number(v.couverts)
   if (!Number.isInteger(couverts) || couverts < 1 || couverts > 20) {
-    errors.couverts = 'Entre 1 et 20 couverts.'
+    errors.couverts = 'guests'
   }
 
   return errors
 }
 
 // Construit le lien mailto — zéro backend, zéro stockage.
-export function buildReservationMailto(v: ReservationValues): string {
+export function buildReservationMailto(v: ReservationValues, locale: Locale): string {
   const lines = [
     `Nom : ${v.nom.trim()}`,
     `E-mail : ${v.email.trim()}`,
     `Téléphone : ${v.telephone.trim()}`,
-    `Date : ${formatDateFr(v.date)}`,
+    `Date : ${formatDate(v.date, locale)}`,
     `Heure : ${v.heure}`,
     `Couverts : ${v.couverts}`,
   ]
   if (v.occasion.trim()) lines.push(`Occasion : ${v.occasion.trim()}`)
   if (v.allergies.trim()) lines.push(`Allergies / régimes : ${v.allergies.trim()}`)
   if (v.message.trim()) lines.push(`Message : ${v.message.trim()}`)
-  lines.push('', 'Demande envoyée depuis le site verslocean.bj')
+  lines.push('', locale === 'fr' ? 'Demande envoyée depuis le site verslocean.bj' : 'Request sent from verslocean.bj')
 
-  const couverts = Number(v.couverts)
-  const subject = `Réservation — ${v.nom.trim()} — ${formatDateFr(v.date)} à ${v.heure} (${couverts} couvert${couverts > 1 ? 's' : ''})`
+  const subject = `Réservation — ${v.nom.trim()} — ${formatDate(v.date, locale)} ${locale === 'fr' ? 'à' : 'at'} ${v.heure} (${v.couverts})`
   const params = new URLSearchParams({ subject, body: lines.join('\n') })
   return `mailto:${site.emailReservation}?${params.toString()}`
 }

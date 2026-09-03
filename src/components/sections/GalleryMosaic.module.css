@@ -1,11 +1,12 @@
-/* Révélation horizontale de la grille — UNE seule animation pour
-   l'ensemble de la mosaïque, jouée une fois par session. */
+/* Révélation horizontale de la mosaïque — UNE seule animation pour
+   l'ensemble de la grille, jouée une fois par session.
+   Sans JavaScript : la grille reste visible (pas de classe = pas de masque). */
 
-.mask {
+.masked {
   clip-path: inset(0 100% 0 0);
 }
 
-.revealed {
+.reveal {
   clip-path: inset(0 0 0 0);
   animation: revealGrid 1.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -20,8 +21,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mask,
-  .revealed {
+  .masked,
+  .reveal {
     clip-path: none;
     animation: none;
   }

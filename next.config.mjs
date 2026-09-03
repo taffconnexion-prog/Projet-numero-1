@@ -17,6 +17,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: blob:",
+      "frame-src https://www.google.com https://maps.google.com",
       "frame-ancestors 'none'",
     ].join('; '),
   },

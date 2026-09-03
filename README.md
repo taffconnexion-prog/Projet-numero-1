@@ -1,173 +1,169 @@
 # Vers l’Océan — Site vitrine
 
 Restaurant de cuisine béninoise haut de gamme, en bord de mer à Fidjrossè — Cotonou, Bénin.
-Site vitrine **sans base de données** : toutes les données sont hardcodées en JSON statique.
-Déploiement automatisé : **GitHub → Vercel** (auto-deploy sur push sur `main`).
+Site vitrine **sans base de données** (données JSON statiques), **bilingue FR / EN** avec
+switcher, déploiement automatisé **GitHub → Vercel** (auto-deploy sur push `main`).
+
+Niveau de finition : standard Noma / Le Bernardin / Sketch — l’émotion précède l’information.
 
 ## Stack
 
 | Brique | Choix |
 | --- | --- |
-| Framework | Next.js 14 (App Router) — version de patch la plus récente (14.2.x) |
+| Framework | Next.js 14 (App Router), version de patch la plus récente (14.2.x) |
 | Langage | TypeScript strict |
-| Style | Tailwind CSS + CSS Modules (animation clip-path de la galerie) |
-| Animations | Framer Motion (import tree-shaké `import { motion } from 'framer-motion'`) |
-| Polices | Polices Google auto-hébergées via `next/font/local` (aucun CDN externe, pas de FOUT) |
-| Images | `next/image` exclusivement (optimisation automatique, lazy loading) |
-| Base de données | Aucune — données statiques dans `src/data/*.json` |
+| Style | Tailwind CSS + CSS Modules (clip-path de la galerie) |
+| Animations | Framer Motion (imports tree-shakés) |
+| Scroll | Lenis (ultra-fluide) + `scroll-behavior: smooth` en repli |
+| Polices | **2 familles seulement** : Cormorant Garamond (titres + italiques) et DM Sans (corps) — auto-hébergées via `next/font/local` (aucun CDN, pas de FOUT) |
+| Images | `next/image` exclusivement, ratios stricts (16:9 hero, 4:3 cartes, 3:4 portraits) |
+| Localisation | Google Maps embed **sans clé API** (section localisation) |
+| Base de données | Aucune — `src/data/*.json` |
 
-Aucune autre dépendance. Les seules dépendances runtime : `next`, `react`, `react-dom`,
-`framer-motion`.
+Dépendances runtime : `next`, `react`, `react-dom`, `framer-motion`, `lenis` (justifiée par le brief premium).
 
-> **Note `next.config.mjs`** : le brief mentionne `next.config.ts`, mais Next.js 14 ne lit pas
-> les configs TypeScript (supporté à partir de Next 15). Le contenu demandé par le cahier des
-> charges est identique, dans `next.config.mjs`.
->
-> **Note polices** : le brief mentionne `next/font/google` ; le build auto-télécharge les
-> polices depuis Google Fonts, ce qui rend le build dépendant d’un accès réseau. Les fichiers
-> variables SIL OFL sont donc auto-hébergés dans `public/fonts/` et servis via `next/font/local`
-> — même résultat (auto-hébergement, pas de CDN, pas de FOUT), build 100 % déterministe.
+## Bilingue FR / EN
 
-## Démarrage local
+- Routage par locale : `/fr/…` (défaut) et `/en/…` — `src/middleware.ts` redirige `/` → `/fr`.
+- Switcher `FR / EN` dans le header et le menu mobile : bascule sur la **même page** dans l’autre langue.
+- Contenu 100 % traduit : UI, sections, plats (noms + descriptions), équipe, galerie (alt),
+  formulaires, messages d’erreur, metadata/SEO — dictionnaires typés `src/locales/fr.ts` / `en.ts`
+  (interface commune `Dict` qui garantit la parité).
+- SEO international : `hreflang` (`alternates.languages`) sur chaque page, sitemap avec alternates,
+  `lang="fr"` / `lang="en"` sur `<html>`, metadata/OG par locale.
+- Les 10 pages (5 × 2 locales) sont **pré-rendues statiquement** (`generateStaticParams`).
+
+## Philosophie visuelle
+
+- **Espace** : padding de sections 80px (mobile) / 120px (desktop), texte éditorial max 680px,
+  une seule idée par section.
+- **Typo** : Cormorant Garamond jamais bold brute (max 600), H1 64px+ desktop avec
+  letter-spacing −0.02em et line-height 1.1, corps 16px / line-height 1.75, guillemets « »,
+  tirets longs, NBSP avant : ; ! ? en français.
+- **Couleurs** : 3 couleurs actives — océan 80 % (dominant), sable 15 %, corail 5 % (CTA uniquement).
+  Contraste texte courant **≥ 7:1 (AAA)** : paires vérifiées (harbor #274B59 sur sand-pale/foam,
+  mist #B0C8D0 sur ocean-deep, sand-warm #E8C98A sur fonds sombres).
+- **Images** : pleine largeur pour le hero, overlay #0A2E3C (jamais noir pur) ≥ 0.4,
+  filets discrets (1px) sur cartes et galerie, jamais de bordures épaisses ni de cadres.
+
+## Animations — liste fermée
+
+1. **Hero** — entrée du titre translateY(40→0) + opacity, 1.1s, une seule fois.
+2. **Navigation** — underline fine qui glisse (scaleX 0→1, 250ms) ; nav **transparente sur le hero,
+   #0A2E3C/95 + blur(8px) au scroll, se cache au scroll descendant, réapparaît au scroll montant**.
+3. **Galerie** — révélation clip-path horizontale, une animation pour toute la grille,
+   une fois par session (`sessionStorage`). Sans JavaScript : grille visible (dégradation gracieuse).
+4. **Filtre du menu** — AnimatePresence + layout sur les cards, 300ms.
+5. **Boutons CTA** — micro-interaction hover (élévation 2px + couleur), 150ms.
+6. **Scroll indicator** — pulse d’opacité 0.4→1→0.4, 2s, infini, uniquement dans le hero.
+7. **Transitions de page** — fondu 450ms, easing `cubic-bezier(0.25, 0.46, 0.45, 0.94)`.
+8. **Loading state** — fine barre sable (#E8C98A) en haut de page à chaque navigation (pas de spinner).
+9. **Cursor custom** — cercle 20px à latence douce, s’agrandit sur liens/boutons/champs
+   (pointeur fin uniquement).
+
+**`prefers-reduced-motion`** : respecté partout (Framer `useReducedMotion` + media queries CSS) —
+seules les transitions de page (fondu d’opacité) et l’essentiel de l’interface sont conservés ;
+Lenis et le curseur custom sont désactivés.
+
+## Sécurité
+
+- **Secrets** : aucun secret dans le code source ; `.env*` ignorés, `.env.example` vide.
+- **En-têtes HTTP** (production) : CSP (`default-src 'self'`, `frame-src` restreint à Google Maps
+  pour la carte embed), `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`,
+  `X-XSS-Protection`, `Referrer-Policy`, `Permissions-Policy`, HSTS preload.
+  Désactivés en dev uniquement (React Refresh l’exige).
+- **Formulaires** : validation TS stricte (téléphone béninois `+229 01…`, date non passée,
+  **lundi fermé**, 1–20 couverts), envoi `mailto:` (zéro backend, zéro persistance),
+  bouton verrouillé 3 s après envoi, affichage via le rendu React (échappement automatique),
+  zéro `dangerouslySetInnerHTML`.
+- **Images** : `next/image` uniquement, fichiers locaux sans métadonnées EXIF.
+- **Routes API** : aucune.
+
+### Audit (état constaté)
+
+`npm audit` : les avis restants sont portés par le noyau **Next.js 14.2** lui-même (correctifs
+en Next 15+, incompatibles avec la contrainte du brief). Version de patch la plus récente installée
+(14.2.35) ; les avis concernent des fonctionnalités inutilisées (rewrites, middleware avancés,
+Server Actions, remotePatterns, nonces CSP). Ré-audit à la prochaine migration majeure.
+
+## Accessibilité
+
+- `lang="fr"` / `lang="en"`, structure sémantique, skip-link, navigation clavier
+  (`:focus-visible` partout), ARIA sur les boutons icône, `aria-current` nav, `aria-live` filtre.
+- Contraste ≥ 7:1 texte courant (AAA), alt descriptifs bilingues.
+- `prefers-reduced-motion` global.
+- Menu mobile plein écran fond uni (jamais de panneau latéral), fermeture au clic sur un lien.
+
+## Performance
+
+- 10 pages 100 % SSG + sitemap/robots/manifest statiques ; First Load JS partagé ~87 kB.
+- Hero `priority` (LCP), lazy loading hors viewport, polices auto-hébergées (pas de FOUT),
+  image optimizer Next (WebP/AVIF sur Vercel).
+- Cibles : Lighthouse Perf > 90, A11y > 95, Best Practices 100, SEO > 95 ; CWV LCP < 2.5s, CLS < 0.1, INP < 200ms.
+
+## Détails premium
+
+- **Favicon** dessiné : `src/app/icon.svg` (net en 16/32px) + `apple-icon.png` + `manifest.webmanifest`.
+- **OG image** designée 1200×630 (`/og-image.jpg`).
+- **404 dans la charte**, bilingue (via catch-all `[...slug]` → `notFound()`).
+- **global-error** auto-portante dans la charte.
+- **Localisation** : carte Google Maps embed (sans clé API) + adresse + horaires + itinéraire.
+
+## Démarrage
 
 ```bash
 npm ci
-npm run dev        # http://localhost:3000
+npm run dev        # http://localhost:3000 → /fr
+npm run build && npm start
+npm run lint       # ESLint next/core-web-vitals
+npm run type-check # tsc --noEmit
 ```
 
-Autres scripts :
+Variable d’environnement (`.env.example`) : `NEXT_PUBLIC_SITE_URL=` (sitemap/robots/metadata).
 
-```bash
-npm run build      # build de production
-npm run start      # sert le build de production
-npm run lint       # ESLint (next/core-web-vitals)
-npm run type-check # tsc --noEmit (strict mode)
-```
+## Déploiement — Vercel
 
-Variable d’environnement (voir `.env.example`, valeurs vides) :
+1. Repo connecté à Vercel (framework auto-détecté) — déjà fait.
+2. **À faire côté GitHub (droit admin requis)** : Settings → Branches → règle sur `main`
+   « Require a pull request before merging ».
+3. Push sur `main` → CI GitHub (lint + types + build) → auto-deploy Vercel.
 
-```
-NEXT_PUBLIC_SITE_URL=   # utilisé pour sitemap.xml et robots.txt
-```
+`vercel.json` fixe `npm ci` + `npm run build` (sortie `.next`).
 
 ## Structure
 
 ```
-├── .github/workflows/ci.yml   # CI : lint + type-check + build (push main & PR)
+├── .github/workflows/ci.yml     # CI : lint + type-check + build
 ├── public/
-│   ├── fonts/                 # Polices variables Google (SIL OFL, voir OFL.txt)
-│   └── images/                # Images statiques (hero, plats, galerie, équipe)
+│   ├── fonts/                   # Cormorant Garamond (+italic), DM Sans — SIL OFL
+│   ├── images/                  # 16 images (hero, plats, galerie, équipe)
+│   ├── og-image.jpg             # OG 1200×630 designée
+│   └── icon-512.png
 ├── src/
 │   ├── app/
-│   │   ├── layout.tsx         # Root layout : polices, metadata/OG complètes, skip-link
-│   │   ├── page.tsx           # Accueil (hero, maison, carte, ambiance, localisation)
-│   │   ├── menu/page.tsx      # Carte filtrable (JS pur côté client)
-│   │   ├── about/page.tsx     # Le chef, l’histoire, l’équipe
-│   │   ├── contact/page.tsx   # Coordonnées + formulaire mailto
-│   │   ├── reservation/page.tsx # Réservation (validation TS, mailto)
-│   │   ├── not-found.tsx
-│   │   ├── sitemap.ts
-│   │   └── robots.ts
+│   │   ├── [locale]/            # RACINE : layout avec <html lang>
+│   │   │   ├── layout.tsx       # Polices, metadata/OG/hreflang par locale,
+│   │   │   │                    # SmoothScroll, RouteProgress, CustomCursor,
+│   │   │   │                    # generateStaticParams (fr, en)
+│   │   │   ├── page.tsx         # Accueil
+│   │   │   ├── menu|about|contact|reservation/page.tsx
+│   │   │   ├── [...slug]/       # Catch-all → notFound() (404 segment)
+│   │   │   └── not-found.tsx    # 404 charte (bilingue)
+│   │   ├── icon.svg, apple-icon.png, manifest.ts, sitemap.ts, robots.ts, global-error.tsx
 │   ├── components/
-│   │   ├── layout/            # Header, Footer, PageHeader, PageTransition
-│   │   ├── sections/          # Hero, Signature, MenuPreview, GalleryMosaic, Location
-│   │   ├── menu/              # DishCard, TastingCard, MenuExplorer (AnimatePresence)
-│   │   ├── reservation/       # ReservationForm
-│   │   ├── contact/           # ContactForm
-│   │   └── ui/                # Cta, Badge, SectionTitle, Field
-│   ├── data/                  # menu.json, team.json, gallery.json (+ accès typés)
-│   ├── hooks/                 # useScrolled, useRevealedOnce (1× par session)
-│   ├── lib/                   # site.ts (coordonnées), validation.ts (formulaires)
-│   └── types/                 # Types TypeScript
-├── .env.example               # Template vide — jamais de vraie valeur
-├── next.config.mjs            # En-têtes de sécurité (production) + poweredByHeader off
-├── tailwind.config.ts         # Palette « Golfe de Guinée » + échelle typo
-├── tsconfig.json              # strict mode
-└── vercel.json                # Config Vercel explicite
+│   │   ├── layout/              # Header (hide/show), MobileMenu (plein écran), Footer,
+│   │   │                        # PageHeader, PageTransition, SmoothScroll (Lenis),
+│   │   │                        # RouteProgress, CustomCursor
+│   │   ├── sections/            # Hero, Signature, MenuPreview, GalleryMosaic (+CSS Module), Location (Maps)
+│   │   ├── menu/                # DishCard, TastingCard, MenuExplorer (AnimatePresence)
+│   │   ├── reservation/ contact/ ui/
+│   │   └── NotFoundPanel.tsx
+│   ├── data/                    # menu/team/gallery .json (textes {fr, en})
+│   ├── lib/                     # site.ts, validation.ts (codes d’erreur), i18n.ts
+│   ├── locales/                 # fr.ts, en.ts, dict.ts (parité typée)
+│   ├── middleware.ts            # / → /fr, /en/… → /en/…
+│   └── types/
+├── next.config.mjs              # En-têtes sécurité (CSP frame-src Maps) — Next 14 ne lit pas .ts
+├── tailwind.config.ts           # Palette 80/15/5 + échelle typo + easing premium
+└── vercel.json
 ```
-
-## Animations — liste fermée
-
-Seulement ces animations existent dans le code :
-
-1. **Hero** — entrée du titre `translateY(40→0)` + opacity, 900 ms, une seule fois.
-2. **Navigation** — underline `scaleX(0→1)` au hover, 200 ms, origine left.
-3. **Galerie** — révélation `clip-path` horizontale, **une** animation pour toute la grille,
-   jouée **une fois par session** (drapeau `sessionStorage`).
-4. **Filtre du menu** — `AnimatePresence` + layout sur les cards, 300 ms, effet sobre.
-5. **Boutons CTA** — micro-interaction hover (`translateY(-2px)` + intensification couleur), 150 ms.
-6. **Scroll indicator** — pulse d’opacité 0.4 → 1 → 0.4, 2 s, infini, uniquement dans le hero.
-7. **Transitions de page** — fondu opacity 0 → 1, 250 ms.
-
-**`prefers-reduced-motion`** : respecté partout — via `useReducedMotion` (Framer Motion) et
-via `@media (prefers-reduced-motion: reduce)` dans le CSS (galerie, smooth scroll, micro
-interactions). En mouvement réduit, seule la transition de page (fondu d’opacité) est conservée ;
-le site reste 100 % utilisable.
-
-## Sécurité
-
-- **Secrets** : aucun secret dans le code source. `.env*` dans `.gitignore`, `.env.example`
-  vide et committé. Aucune variable `NEXT_PUBLIC_*` ne contient de secret.
-- **En-têtes HTTP** (prod, `next.config.mjs`) : CSP (`default-src 'self'`),
-  `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `X-XSS-Protection`,
-  `Referrer-Policy`, `Permissions-Policy` (caméra/micro/géo désactivés), HSTS preload.
-  En local (`next dev`) les en-têtes CSP sont désactivés volontairement : le client de
-  développement de Next.js (React Refresh) ne fonctionne pas avec la CSP de production.
-- **Formulaires** : validation stricte en TypeScript (téléphone béninois `+229 01…`, date
-  non passée, fermé le lundi, 1–20 couverts), envoi par `mailto:` (zéro backend, zéro
-  persistance), bouton verrouillé 3 s après envoi (rate limiting minimal), affichage des
-  valeurs renvoyées uniquement via le rendu React (échappement automatique), jamais de
-  `dangerouslySetInnerHTML`.
-- **Images** : `next/image` uniquement, images locales sans métadonnées EXIF.
-- **Routes API** : aucune — zéro surface d’attaque backend.
-- **Dépendances** : 4 dépendances runtime, toutes justifiées.
-
-### Audit (état constaté)
-
-`npm audit` signale des vulnérabilités portées par le **noyau Next.js 14.2** lui-même et par
-l’eslint-plugin dev ; les corrections officielles exigent Next 15/16 (breaking), incompatible
-avec la contrainte « Next.js 14 » du cahier des charges. La version de patch la plus récente
-(14.2.35) est installée. Les avis concernent des fonctionnalités **inutilisées** par ce site
-(rewrites, middleware, Server Actions, `remotePatterns`, i18n Pages Router, WebSockets,
-nonces CSP). À la prochaine évolution majeure : migrer vers le dernier Next LTS et ré-auditer.
-
-## Accessibilité
-
-- `lang="fr"`, structure sémantique (`<main>`, `<nav>`, `<section>`, `<article>`, `<address>`,
-  `<figure>`), skip-link « Aller au contenu principal ».
-- Contraste ≥ 4.5:1 pour tout le texte courant (la palette a été vérifiée paires par paires).
-- Navigation clavier : `:focus-visible` visible partout, labels ARIA sur les boutons icône,
-  `aria-current` sur la nav, `aria-live` sur le compteur du filtre de carte.
-- `alt` descriptif sur chaque image.
-- Respect de `prefers-reduced-motion` (voir plus haut).
-
-## Performance
-
-- Pages 100 % statiques (pré-rendues au build), First Load JS partagé ~87 kB.
-- Hero en `priority` (LCP), images hors viewport en `loading="lazy"`.
-- Polices via `next/font/local` : pas de FOUT, subset auto-hébergé.
-- Images servies via l’image optimizer Next (WebP/AVIF automatique sur Vercel).
-- Objectifs Lighthouse : Performance > 90, Accessibilité > 95, Best Practices 100, SEO > 95 ;
-  Core Web Vitals : LCP < 2.5 s, CLS < 0.1, INP < 200 ms.
-
-## SEO
-
-- Metadata/OG complètes dans `layout.tsx` (locale `fr_BJ`, image OG 1200×630).
-- Titres par page via le template `%s | Vers l’Océan — Restaurant Béninois à Cotonou`.
-- `sitemap.xml` et `robots.txt` générés (`src/app/sitemap.ts`, `src/app/robots.ts`).
-
-## Déploiement — Vercel
-
-1. Connecter le dépôt GitHub à Vercel (le framework Next.js est auto-détecté).
-2. Protection de branche sur `main` : exiger une Pull Request (pas de push direct).
-3. Tout push sur `main` déclenche : CI GitHub (lint + types + build) puis auto-deploy Vercel.
-4. La CI (`.github/workflows/ci.yml`) tourne aussi sur toute PR.
-
-`vercel.json` fixe explicitement `npm ci` + `npm run build` (sortie `.next`).
-
-## Contenu
-
-- Menu : 6 plats + menu dégustation « Voyage au Bénin » (5 services) — `src/data/menu.json`.
-- Équipe : 4 membres — `src/data/team.json`.
-- Galerie : 5 photos — `src/data/gallery.json`.
-- Coordonnées fictives mais cohérentes : `src/lib/site.ts` (source unique).

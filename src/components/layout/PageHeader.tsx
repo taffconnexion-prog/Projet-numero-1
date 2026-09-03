@@ -3,14 +3,16 @@ interface PageHeaderProps {
   accent?: string
 }
 
-// Bandeau de page sombre — H1 56px (Cormorant Garamond 600).
+// Bandeau de page — H1 massif (64px desktop), tracking -0.02em, respiration généreuse.
 export function PageHeader({ title, accent }: PageHeaderProps) {
   return (
-    <header className="bg-ocean-deep pb-16 pt-36 md:pb-20 md:pt-44">
+    <header className="bg-ocean-deep pb-20 pt-44 md:pb-28 md:pt-56">
       <div className="mx-auto max-w-content px-5 md:px-8">
-        <h1 className="font-display text-4xl font-semibold leading-tight text-sand-warm md:text-[3.5rem]">{title}</h1>
+        <h1 className="max-w-4xl font-display text-[2.75rem] font-semibold leading-display tracking-tightest text-sand-warm md:text-[4rem]">
+          {title}
+        </h1>
         {accent ? (
-          <p className="mt-4 max-w-2xl font-accent text-lg italic leading-relaxed text-sand-warm/85 md:text-xl">
+          <p className="mt-6 max-w-prose font-accent text-xl italic leading-relaxed text-sand-warm/80 md:text-2xl">
             {accent}
           </p>
         ) : null}

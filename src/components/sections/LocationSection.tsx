@@ -1,51 +1,62 @@
+import type { Locale } from '@/types'
+import { dict } from '@/lib/i18n'
+import { site } from '@/lib/site'
 import { CtaLink } from '@/components/ui/Cta'
 import { SectionTitle } from '@/components/ui/SectionTitle'
-import { site } from '@/lib/site'
 
-// Localisation — fond sable clair, bloc texte élégant (pas d'API Maps).
-export function LocationSection() {
+// Localisation — fond sable clair, carte Google Maps (embed sans clé API).
+export function LocationSection({ locale }: { locale: Locale }) {
+  const t = dict(locale).localisation
+  const hours = dict(locale).hours
+
   return (
-    <section className="bg-sand-pale text-ocean-deep" aria-labelledby="localisation">
-      <div className="mx-auto max-w-content px-5 py-20 md:px-8 md:py-28">
-        <SectionTitle
-          id="localisation"
-          tone="light"
-          title="Nous trouver"
-          accent="Deux pas de l’océan, en face des pirogues."
-        />
+    <section className="bg-sand-pale text-ocean-deep" aria-labelledby="localisation-titre">
+      <div className="mx-auto max-w-content px-5 py-20 md:px-8 md:py-[120px]">
+        <SectionTitle id="localisation-titre" tone="light" title={t.title} accent={t.accent} />
 
-        <div className="mt-10 grid gap-10 md:grid-cols-2 md:gap-16">
-          <address className="not-italic">
-            <p className="font-display text-2xl font-semibold">{site.name}</p>
-            <p className="mt-3 leading-body">
-              {site.address.line1}
-              <br />
-              {site.address.line2}
-              <br />
-              {site.address.city}, {site.address.country}
-            </p>
-            <dl className="mt-8 space-y-3 text-[0.9375rem]">
-              {site.hours.map((item) => (
-                <div key={item.label} className="flex flex-wrap gap-x-3">
-                  <dt className="w-24 font-medium">{item.label}</dt>
-                  <dd className="text-ocean-mid">{item.value}</dd>
+        <div className="mt-14 grid gap-14 lg:grid-cols-2 lg:gap-20">
+          <div>
+            <address className="not-italic">
+              <p className="font-display text-3xl font-semibold tracking-tightest">{site.name}</p>
+              <p className="mt-5 max-w-prose leading-body text-harbor">
+                {site.address.line1}
+                <br />
+                {site.address.line2}
+                <br />
+                {site.address.city}, {site.address.country[locale]}
+              </p>
+            </address>
+
+            <h3 className="mt-14 font-display text-2xl font-semibold tracking-tightest">{t.hours}</h3>
+            <dl className="mt-6 max-w-sm space-y-4 text-[0.9375rem]">
+              {[
+                { label: hours.lunch, value: hours.lunchValue },
+                { label: hours.dinner, value: hours.dinnerValue },
+                { label: hours.monday, value: hours.mondayValue },
+              ].map((item) => (
+                <div key={item.label} className="flex flex-wrap gap-x-8">
+                  <dt className="w-28 font-medium">{item.label}</dt>
+                  <dd className="text-harbor">{item.value}</dd>
                 </div>
               ))}
             </dl>
-          </address>
 
-          <div className="flex flex-col justify-between gap-10 border-t border-ocean-mid/20 pt-8 md:border-l md:border-t-0 md:pl-16 md:pt-0">
-            <div>
-              <h3 className="font-display text-[1.75rem] font-semibold">Venir jusqu’à la rive</h3>
-              <p className="mt-4 max-w-md text-[0.9375rem] leading-relaxed text-ocean-mid">
-                À dix minutes en taxi du centre-ville de Cotonou, le long de la Route des Pêcheurs.
-                Des parkings gratuits jouxtent la terrasse, et les pirogues des pêcheurs accostent à
-                quelques mètres des tables.
-              </p>
+            <h3 className="mt-14 font-display text-2xl font-semibold tracking-tightest">{t.come}</h3>
+            <p className="mt-5 max-w-prose text-[0.9375rem] leading-body text-harbor">{t.comeText}</p>
+
+            <div className="mt-14">
+              <CtaLink href={`/${locale}/reservation`}>{t.reserve}</CtaLink>
             </div>
-            <div>
-              <CtaLink href="/reservation" variant="primary">Réserver une table</CtaLink>
-            </div>
+          </div>
+
+          <div className="min-h-[360px] border border-ocean-mid/25 lg:min-h-0">
+            <iframe
+              src={site.mapEmbed}
+              title={t.mapTitle}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="h-full min-h-[360px] w-full border-0"
+            />
           </div>
         </div>
       </div>
