@@ -1,0 +1,42 @@
+[
+  {
+    "id": "terrasse",
+    "src": "/images/gallery-terrasse.jpg",
+    "alt": {
+      "fr": "Terrasse en bois sur pilotis au-dessus de l’eau turquoise, lanternes en rotin allumées au crépuscule",
+      "en": "Wooden stilted terrace over turquoise water, rattan lanterns glowing at dusk"
+    }
+  },
+  {
+    "id": "lanternes",
+    "src": "/images/gallery-lanternes.jpg",
+    "alt": {
+      "fr": "Lanternes en rotin suspendues aux poutres de bois de la terrasse, lumière dorée",
+      "en": "Rattan lanterns hanging from the terrace wooden beams, golden light"
+    }
+  },
+  {
+    "id": "cuisine",
+    "src": "/images/gallery-cuisine.jpg",
+    "alt": {
+      "fr": "Cuisine ouverte : gril à braises, pots en cuivre et herbes fraîches dans la lumière chaleureuse",
+      "en": "Open kitchen: ember grill, copper pots and fresh herbs in warm light"
+    }
+  },
+  {
+    "id": "table",
+    "src": "/images/gallery-table.jpg",
+    "alt": {
+      "fr": "Table dressée de lin blanc au bord de l’eau, coucher de soleil sur l’Atlantique en arrière-plan",
+      "en": "Table set with white linen at the water’s edge, Atlantic sunset behind"
+    }
+  },
+  {
+    "id": "coucher",
+    "src": "/images/gallery-coucher.jpg",
+    "alt": {
+      "fr": "Coucher de soleil doré sur l’océan, pirogues au loin, vu depuis la terrasse",
+      "en": "Golden sunset over the ocean, canoes in the distance, seen from the terrace"
+    }
+  }
+]

@@ -1,0 +1,126 @@
+{
+  "dishes": [
+    {
+      "id": "1",
+      "name": { "fr": "Barracuda de Fidjrossè", "en": "Fidjrossè Barracuda" },
+      "description": {
+        "fr": "Barracuda grillé sur braises de coco, sauce gboma aux herbes de brousse, riz de mangrove parfumé au gingembre frais",
+        "en": "Barracuda grilled over coconut embers, gboma sauce with wild herbs, mangrove rice scented with fresh ginger"
+      },
+      "price": "8 500 FCFA",
+      "category": "plats",
+      "tag": "signature",
+      "image": "/images/dish-barracuda.jpg"
+    },
+    {
+      "id": "2",
+      "name": { "fr": "Akpan du Chef", "en": "Chef’s Akpan" },
+      "description": {
+        "fr": "Akpan fermenté maison, mangue attiéké, crevettes géantes du lac Nokoué flambées au sodabi",
+        "en": "House-fermented akpan, mango attiéké, giant Nokoué Lake prawns flambéed in sodabi"
+      },
+      "price": "5 200 FCFA",
+      "category": "entrées",
+      "tag": "signature",
+      "image": "/images/dish-akpan.jpg"
+    },
+    {
+      "id": "3",
+      "name": { "fr": "Amiwo Royal", "en": "Amiwo Royal" },
+      "description": {
+        "fr": "Pâte de maïs rouge ancestrale, queue de langouste locale, réduction de palme et citron vert de Ouidah",
+        "en": "Ancestral red corn paste, local lobster tail, palm reduction and Ouidah lime"
+      },
+      "price": "12 000 FCFA",
+      "category": "plats",
+      "tag": "prestige",
+      "image": "/images/dish-amiwo.jpg"
+    },
+    {
+      "id": "4",
+      "name": { "fr": "Soupe Kandji", "en": "Kandji Soup" },
+      "description": {
+        "fr": "Bouillon de poisson fumé, feuilles de baobab, igname pilée à la main, huile de palmiste non raffinée",
+        "en": "Smoked fish broth, baobab leaves, hand-mashed yam, unrefined palm oil"
+      },
+      "price": "3 800 FCFA",
+      "category": "entrées",
+      "tag": "traditionnel",
+      "image": "/images/dish-kandji.jpg"
+    },
+    {
+      "id": "5",
+      "name": { "fr": "Dessert Zanmidji", "en": "Zanmidji Dessert" },
+      "description": {
+        "fr": "Gâteau de gari au coco râpé, coulis de tamarin, glace à la noix de cajou torréfiée, fleur de sel de Ouidah",
+        "en": "Gari coconut cake, tamarind coulis, roasted cashew ice cream, Ouidah sea salt"
+      },
+      "price": "2 500 FCFA",
+      "category": "desserts",
+      "tag": "maison",
+      "image": "/images/dish-zanmidji.jpg"
+    },
+    {
+      "id": "6",
+      "name": { "fr": "Cocktail Atlantique", "en": "Atlantic Cocktail" },
+      "description": {
+        "fr": "Sodabi artisanal, jus de bissap frais, sirop de gingembre, zeste de citron vert, mousse de coco",
+        "en": "Artisanal sodabi, fresh bissap, ginger syrup, lime zest, coconut foam"
+      },
+      "price": "2 000 FCFA",
+      "category": "boissons",
+      "tag": "signature",
+      "image": "/images/dish-cocktail.jpg"
+    }
+  ],
+  "tastingMenu": {
+    "name": { "fr": "Menu Dégustation « Voyage au Bénin »", "en": "Tasting Menu — “A Journey Through Benin”" },
+    "accent": {
+      "fr": "Cinq services pour un parcours dans la cuisine béninoise.",
+      "en": "Five courses for a journey through Beninese cuisine."
+    },
+    "services": 5,
+    "price": "35 000 FCFA",
+    "note": {
+      "fr": "par personne · minimum 2 personnes",
+      "en": "per person · minimum 2 guests"
+    },
+    "courses": [
+      {
+        "name": { "fr": "Mise en bouche", "en": "Amuse-bouche" },
+        "detail": {
+          "fr": "Bouchée de crevette au piment de la Jamaïque",
+          "en": "Shrimp bite with allspice"
+        }
+      },
+      {
+        "name": { "fr": "Entrée froide", "en": "Cold starter" },
+        "detail": {
+          "fr": "Carpaccio de barracuda mariné à l’huile de neem et citron de Ouidah",
+          "en": "Barracuda carpaccio marinated in neem oil, Ouidah lime"
+        }
+      },
+      {
+        "name": { "fr": "Entrée chaude", "en": "Warm starter" },
+        "detail": {
+          "fr": "Velouté de feuilles de baobab, croûton de gari",
+          "en": "Baobab leaf velouté, gari crouton"
+        }
+      },
+      {
+        "name": { "fr": "Plat principal", "en": "Main course" },
+        "detail": {
+          "fr": "Langouste entière grillée, sauce vodoun aux 7 épices",
+          "en": "Whole grilled lobster, vodoun sauce with seven spices"
+        }
+      },
+      {
+        "name": { "fr": "Dessert", "en": "Dessert" },
+        "detail": {
+          "fr": "Fondant au chocolat d’Abomey-Calavi, glace cajou",
+          "en": "Abomey-Calavi chocolate fondant, cashew ice cream"
+        }
+      }
+    ]
+  }
+}

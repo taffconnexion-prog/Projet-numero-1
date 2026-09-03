@@ -1,0 +1,26 @@
+[
+  {
+    "id": "kofi",
+    "name": "Kofi Adannou",
+    "role": { "fr": "Chef & fondateur", "en": "Chef & founder" },
+    "photo": "/images/chef-kofi.jpg"
+  },
+  {
+    "id": "mariam",
+    "name": "Mariam Adannou",
+    "role": { "fr": "Maîtresse d’hôtel", "en": "Restaurant host" },
+    "photo": "/images/team-mariam.jpg"
+  },
+  {
+    "id": "serge",
+    "name": "Serge Dossou",
+    "role": { "fr": "Sous-chef", "en": "Sous-chef" },
+    "photo": "/images/team-serge.jpg"
+  },
+  {
+    "id": "fatou",
+    "name": "Fatou Sagna",
+    "role": { "fr": "Bar & pâtisserie", "en": "Bar & pastry" },
+    "photo": "/images/team-fatou.jpg"
+  }
+]
